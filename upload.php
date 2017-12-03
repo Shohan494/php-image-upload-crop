@@ -52,19 +52,17 @@ if ($uploadOk == 0) {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
 
         list($width, $height) = getimagesize($target_file);
-
-        echo $width;
-        echo $height;
-        echo "echo ends";
-        // open file a image resource
-        /*
-        $img = Image::make($target_file);
-        // crop imagetarget_file
-        $img->crop(500, 500, 200, 200);
-        $img->save('edited/cropped.jpg');
-        */
-        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-
+        if($height < 200){
+            echo "height block";
+            unlink($target_file);
+            $uploadOk = 0;
+        } else {
+            $img = Image::make($target_file);
+            // crop imagetarget_file
+            $img->crop(500, 500, 200, 200);
+            $img->save('edited/cropped.jpg');
+            echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+        }
     } else {
         echo "Sorry, there was an error uploading your file.";
     }
