@@ -38,10 +38,6 @@ if ($_FILES["fileToUpload"]["size"] > 500000) {
     $uploadOk = 0;
 }
 
-if ()
-
-
-
 // Allow certain file formats
 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 && $imageFileType != "gif" ) {
@@ -54,11 +50,19 @@ if ($uploadOk == 0) {
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+
+        list($width, $height) = getimagesize($target_file);
+
+        echo $width;
+        echo $height;
+        echo "echo ends";
         // open file a image resource
+        /*
         $img = Image::make($target_file);
         // crop imagetarget_file
         $img->crop(500, 500, 200, 200);
         $img->save('edited/cropped.jpg');
+        */
         echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
 
     } else {
